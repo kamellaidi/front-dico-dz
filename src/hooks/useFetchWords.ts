@@ -1,4 +1,3 @@
-// src/hooks/useFetchWords.ts
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { WORDS_ENDPOINT, SEARCH_ENDPOINT } from '../config/config';
@@ -10,7 +9,7 @@ interface Word {
   type: string;
 }
 
-export function useFetchWords(debouncedSearchQuery: string) {
+export function useFetchWords(debouncedSearchQuery: string, refreshTrigger: number = 0) {
   const [words, setWords] = useState<Word[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +34,7 @@ export function useFetchWords(debouncedSearchQuery: string) {
 
   useEffect(() => {
     fetchWords();
-  }, [fetchWords]);
+  }, [fetchWords, refreshTrigger]);
 
   return { words, loading, error };
 }
