@@ -1,0 +1,33 @@
+// Couleurs personnalisées
+$primary: #2e7d32;
+$secondary: #f44336;
+$navbar-bg: #d4ebd5; // Vert légèrement plus foncé pour la navbar
+$body-bg: #f8fdf8; // Fond principal plus clair
+
+// Personnalisation des composants Bootstrap
+$body-color: $primary;
+
+$navbar-light-color: $primary;
+$navbar-light-hover-color: darken($primary, 10%);
+
+$card-bg: white;
+$card-border-color: rgba($primary, .125);
+
+$btn-font-weight: 500;
+
+
+
+// Styles supplémentaires personnalisés
+.navbar {
+  background-color: $navbar-bg;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+body {
+  background-color: $body-bg;
+}
+
+// ... autres styles personnalisés ...
+
+// Import de Bootstrap
+@import "~bootstrap/scss/bootstrap";

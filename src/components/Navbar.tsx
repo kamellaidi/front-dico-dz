@@ -1,51 +1,80 @@
 import React from 'react';
-import { Container, Navbar, Nav } from 'react-bootstrap'; // Import des composants de React Bootstrap
-import { Link } from 'react-router-dom'; // Import du composant Link de react-router-dom pour la navigation
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
-// Déclaration du composant fonctionnel AppNavbar
+// Définition du type pour les éléments de navigation
+type NavItem = {
+  path: string;
+  label: string;
+};
+
+// Liste des éléments de navigation
+const navItems: NavItem[] = [
+  { path: '/', label: 'Accueil' },
+  { path: '/translate', label: 'Traduire' },
+  { path: '/lexicon', label: 'Lexique' },
+  { path: '/courses', label: 'Cours' },
+  { path: '/about', label: 'À Propos' },
+];
+
+const StyledNavbar = styled(Navbar)`
+  background-color: #e8f5e9; // Vert pastel très clair
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+`;
+
+const StyledNavbarBrand = styled(Navbar.Brand)`
+  font-family: 'Georgia', serif;
+  font-size: 2rem;
+  font-weight: bold;
+  font-style: italic;
+  color: #2e7d32 !important;
+  text-decoration: none !important;
+  
+  span {
+    color: #f44336;
+  }
+`;
+
+const StyledNavLink = styled(Nav.Link)`
+  color: #4caf50 !important; // Vert moyen pour inactif
+  margin: 0 10px;
+  position: relative;
+  transition: color 0.3s ease;
+  text-decoration: none !important;
+
+  &:hover, &.active {
+    color: #2e7d32 !important; // Vert foncé pour actif et survol
+  }
+`;
+
 const AppNavbar: React.FC = () => {
+  const location = useLocation();
+
   return (
-    // Composant Navbar de React Bootstrap
-    <Navbar bg='dark' variant='dark' expand='lg'>
-      {/* Conteneur pour centrer et espacer les éléments de la barre de navigation */}
+    <StyledNavbar expand="lg" sticky="top">
       <Container>
-        {/* Composant Navbar.Brand utilisé pour le titre ou le logo de la navbar */}
-        <Navbar.Brand as={Link} to='/'>
-          Dico Dz {/* Texte du logo ou titre */}
-        </Navbar.Brand>
-
-        {/* Composant Navbar.Toggle pour afficher le bouton de menu dans les petits écrans */}
-        <Navbar.Toggle aria-controls='basic-navbar-nav' />
-
-        {/* Composant Navbar.Collapse pour contenir les éléments de navigation qui seront cachés dans les petits écrans */}
-        <Navbar.Collapse id='basic-navbar-nav'>
-          {/* Composant Nav utilisé pour les éléments de navigation */}
-          <Nav className='me-auto'>
-            {/* Chaque Nav.Link est un lien de navigation */}
-            <Nav.Link as={Link} to='/'>
-              Accueil {/* Lien vers la page d'accueil */}
-            </Nav.Link>
-            <Nav.Link as={Link} to='/translate'>
-              Traduire {/* Lien vers la page de traduction */}
-            </Nav.Link>
-            <Nav.Link as={Link} to='/lexicon'>
-              Lexique {/* Lien vers la page de lexique */}
-            </Nav.Link>
-            <Nav.Link as={Link} to='/courses'>
-              Cours {/* Lien vers la page des cours */}
-            </Nav.Link>
-
-            {/* Lien vers la page "À Propos" */}
-            <Nav.Link as={Link} to='/about'>
-              À Propos
-            </Nav.Link>
-            {/* Ajoutez d'autres liens ici si nécessaire */}
+        <StyledNavbarBrand as={Link} to="/">
+          Dico Dz
+        </StyledNavbarBrand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            {navItems.map((item) => (
+              <StyledNavLink
+                key={item.path}
+                as={Link}
+                to={item.path}
+                className={location.pathname === item.path ? 'active' : ''}
+              >
+                {item.label}
+              </StyledNavLink>
+            ))}
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>
+    </StyledNavbar>
   );
 };
 
-// Exportation du composant AppNavbar pour utilisation dans d'autres parties de l'application
 export default AppNavbar;
