@@ -7,6 +7,7 @@ import styled from 'styled-components';
 type NavItem = {
   path: string;
   label: string;
+  isAdmin?: boolean;
 };
 
 // Liste des éléments de navigation
@@ -16,10 +17,11 @@ const navItems: NavItem[] = [
   { path: '/lexicon', label: 'Lexique' },
   { path: '/courses', label: 'Cours' },
   { path: '/about', label: 'À Propos' },
+  { path: '/admin/words', label: 'Gestion du site', isAdmin: true },
 ];
 
 const StyledNavbar = styled(Navbar)`
-  background-color: #e8f5e9; // Vert pastel très clair
+  background-color: #d4ebd5;
   box-shadow: 0 2px 4px rgba(0,0,0,.1);
 `;
 
@@ -32,19 +34,20 @@ const StyledNavbarBrand = styled(Navbar.Brand)`
   text-decoration: none !important;
   
   span {
-    color: #f44336;
+    color: #1b5e20;
   }
 `;
 
-const StyledNavLink = styled(Nav.Link)`
-  color: #4caf50 !important; // Vert moyen pour inactif
+const StyledNavLink = styled(Nav.Link)<{ $isAdmin?: boolean }>`
+  color: ${props => props.$isAdmin ? '#1b5e20' : '#4caf50'} !important;
   margin: 0 10px;
   position: relative;
   transition: color 0.3s ease;
   text-decoration: none !important;
+  font-weight: ${props => props.$isAdmin ? 'bold' : 'normal'};
 
   &:hover, &.active {
-    color: #2e7d32 !important; // Vert foncé pour actif et survol
+    color: ${props => props.$isAdmin ? '#0a3d0a' : '#2e7d32'} !important;
   }
 `;
 
@@ -66,6 +69,7 @@ const AppNavbar: React.FC = () => {
                 as={Link}
                 to={item.path}
                 className={location.pathname === item.path ? 'active' : ''}
+                $isAdmin={item.isAdmin}
               >
                 {item.label}
               </StyledNavLink>
